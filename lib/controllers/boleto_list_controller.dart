@@ -26,7 +26,7 @@ class BoletoController {
     userEmail = email;
   }
 
-  Future<void> getBoletos() async {
+  Future<void>getBoletos() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final response = prefs.getStringList('boletos') ?? <String>[];
