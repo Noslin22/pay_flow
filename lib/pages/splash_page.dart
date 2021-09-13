@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:payflow/controllers/auth_controller.dart';
-import 'package:payflow/shared/theme.dart';
+import 'package:payflow_mobx/controllers/auth_controller.dart';
+import 'package:payflow_mobx/shared/theme.dart';
 
 class SplashPage extends StatelessWidget {
   final authController = AuthController();

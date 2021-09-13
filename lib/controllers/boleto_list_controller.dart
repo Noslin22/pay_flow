@@ -1,32 +1,32 @@
-import 'package:flutter/material.dart';
-import 'package:payflow/shared/models/boleto_model.dart';
+import 'package:mobx/mobx.dart';
+import 'package:payflow_mobx/shared/models/boleto_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+part 'boleto_list_controller.g.dart';
 
-class BoletoController {
-  final boletosNotifier = ValueNotifier<List<BoletoModel>>(<BoletoModel>[]);
-  final boletoNotifier = ValueNotifier<BoletoModel>(BoletoModel());
+class BoletoController = _BoletoController with _$BoletoController;
 
-  set boletos(List<BoletoModel> value) => boletosNotifier.value = value;
-  set boleto(BoletoModel value) => boletoNotifier.value = value;
-
-  List<BoletoModel> get boletos => boletosNotifier.value;
-  BoletoModel get boleto => boletoNotifier.value;
+abstract class _BoletoController with Store {
+  @observable
+  List<BoletoModel> boletos = [];
+  @observable
+  BoletoModel boleto = BoletoModel();
 
   String userEmail = '';
   String type = '';
 
-  BoletoController.boleto({required String email}) {
+  _BoletoController.boleto({required String email}) {
     getBoletos();
     type = 'boletos';
     userEmail = email;
   }
-  BoletoController.extrato({required String email}) {
+  _BoletoController.extrato({required String email}) {
     getExtratos();
     type = 'extratos';
     userEmail = email;
   }
 
-  Future<void>getBoletos() async {
+  @action
+  Future<void> getBoletos() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final response = prefs.getStringList('boletos') ?? <String>[];
@@ -39,6 +39,7 @@ class BoletoController {
     }
   }
 
+  @action
   Future<void> getExtratos() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -64,6 +65,7 @@ class BoletoController {
     return;
   }
 
+  @action
   Future<void> deleteBoleto() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final boletos = prefs.getStringList('boletos') ?? <String>[];

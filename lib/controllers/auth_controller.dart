@@ -1,13 +1,16 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:payflow/shared/models/user_model.dart';
+import 'package:mobx/mobx.dart';
+import 'package:payflow_mobx/shared/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+part 'auth_controller.g.dart';
 
-class AuthController {
-  ValueNotifier<UserModel?> _userNotifier = ValueNotifier<UserModel?>(null);
-  UserModel? get userModel => _userNotifier.value;
-  set userModel(UserModel? userModel) => _userNotifier.value = userModel;
+class AuthController = _AuthController with _$AuthController;
 
+abstract class _AuthController with Store {
+  @observable
+  UserModel? userModel;
+
+  @action
   void setUser({required UserModel? user, required BuildContext context}) {
     if (user != null) {
       userModel = user;
@@ -24,6 +27,7 @@ class AuthController {
     return;
   }
 
+  @action
   Future<void> currentUser(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await Future.delayed(Duration(seconds: 3));

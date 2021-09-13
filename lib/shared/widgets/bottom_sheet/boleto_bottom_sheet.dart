@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:payflow/controllers/boleto_list_controller.dart';
-import 'package:payflow/shared/models/boleto_model.dart';
-import 'package:payflow/shared/theme.dart';
-import 'package:payflow/shared/widgets/buttons/icon_label_button.dart';
-import 'package:payflow/shared/widgets/buttons/button_outline.dart';
+import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
+import 'package:payflow_mobx/shared/models/boleto_model.dart';
+import 'package:payflow_mobx/shared/theme.dart';
+import 'package:payflow_mobx/shared/widgets/buttons/icon_label_button.dart';
+import 'package:payflow_mobx/shared/widgets/buttons/button_outline.dart';
 
 class BoletoBottomSheet extends StatelessWidget {
   final BoletoController controller;

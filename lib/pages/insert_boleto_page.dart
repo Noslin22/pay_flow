@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:payflow/controllers/boleto_list_controller.dart';
-import 'package:payflow/controllers/insert_boleto_controller.dart';
-import 'package:payflow/shared/models/boleto_model.dart';
+import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
+import 'package:payflow_mobx/controllers/insert_boleto_controller.dart';
+import 'package:payflow_mobx/shared/models/boleto_model.dart';
 
-import 'package:payflow/shared/theme.dart';
-import 'package:payflow/shared/widgets/input_text.dart';
-import 'package:payflow/shared/widgets/buttons/set_label_buttons.dart';
+import 'package:payflow_mobx/shared/theme.dart';
+import 'package:payflow_mobx/shared/widgets/input_text.dart';
+import 'package:payflow_mobx/shared/widgets/buttons/set_label_buttons.dart';
 
 class InsertBoletoPage extends StatefulWidget {
   final BoletoController boletoController;

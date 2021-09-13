@@ -3,18 +3,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:payflow/pages/Barcode/barcode_status.dart';
+import 'package:payflow_mobx/pages/Barcode/barcode_status.dart';
 
-class BarcodeController {
-  final statusNotifier = ValueNotifier<BarcodeStatus>(BarcodeStatus());
+import 'package:mobx/mobx.dart';
+part 'barcode_controller.g.dart';
 
-  BarcodeStatus get status => statusNotifier.value;
-  set status(BarcodeStatus status) => statusNotifier.value = status;
+class BarcodeController = _BarcodeController with _$BarcodeController;
+
+abstract class _BarcodeController with Store {
+  @observable
+  BarcodeStatus status = BarcodeStatus();
+
   final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
   InputImage? imagePicker;
   CameraController? cameraController;
-
-  void getAvailableCameras() async {
+  
+  @action
+  Future<void> getAvailableCameras() async {
     try {
       final response = await availableCameras();
       final camera = response.firstWhere(
@@ -34,7 +39,8 @@ class BarcodeController {
   }
 
   void scanWithImagePicker() async {
-    final response = await ImagePicker().getImage(source: ImageSource.gallery);
+    XFile? response =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     final inputImage = InputImage.fromFilePath(response!.path);
     scannerBarcode(inputImage);
   }
@@ -96,7 +102,8 @@ class BarcodeController {
         },
       );
   }
-
+  
+  @action
   Future<void> scannerBarcode(InputImage inputImage) async {
     try {
       final barcodes = await barcodeScanner.processImage(inputImage);
@@ -115,7 +122,8 @@ class BarcodeController {
       print("Erro na leitura: $e");
     }
   }
-
+  
+  @action
   void scanWithCamera() {
     status = BarcodeStatus.available();
     Future.delayed(Duration(seconds: 10)).then(
@@ -130,7 +138,6 @@ class BarcodeController {
     if (status.showCamera) {
       cameraController!.dispose();
     }
-    statusNotifier.dispose();
     barcodeScanner.close();
   }
 }
