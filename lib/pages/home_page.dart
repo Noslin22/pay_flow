@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                               )
                             : null,
                         color: args.photoURL != null ? null : Colors.black,
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                     ),
                   ),
