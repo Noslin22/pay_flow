@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   subtitle: Text(
-                    'Mantenha suas contas em corretas',
+                    'Mantenha suas contas em dia',
                     style: TextStyles.captionShape,
                   ),
                   trailing: InkWell(
