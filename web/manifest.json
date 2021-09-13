@@ -1,11 +1,11 @@
 {
-    "name": "payflow",
-    "short_name": "payflow",
+    "name": "PayFlow",
+    "short_name": "Payflow",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FF9419",
+    "theme_color": "#FF9419",
+    "description": "A place to manage your bills.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
