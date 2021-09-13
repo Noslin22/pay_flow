@@ -1,11 +1,10 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
-
-import 'package:payflow/controllers/boleto_list_controller.dart';
-import 'package:payflow/shared/models/boleto_model.dart';
-import 'package:payflow/shared/theme.dart';
-import 'package:payflow/shared/widgets/boleto/boleto_info.dart';
-import 'package:payflow/shared/widgets/boleto/boleto_list.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
+import 'package:payflow_mobx/shared/theme.dart';
+import 'package:payflow_mobx/shared/widgets/boleto/boleto_info.dart';
+import 'package:payflow_mobx/shared/widgets/boleto/boleto_list.dart';
 
 class MeusBoletosPage extends StatelessWidget {
   final BoletoController controller;
@@ -29,10 +28,9 @@ class MeusBoletosPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: ValueListenableBuilder<List<BoletoModel>>(
-                      valueListenable: controller.boletosNotifier,
-                      builder: (_, boletos, __) => AnimatedCard(
-                        child: BoletoInfo(size: boletos.length),
+                    child: Observer(
+                      builder: (_) => AnimatedCard(
+                        child: BoletoInfo(size: controller.boletos.length),
                         direction: AnimatedCardDirection.top,
                       ),
                     ),

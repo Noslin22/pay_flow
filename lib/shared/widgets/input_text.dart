@@ -1,7 +1,7 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 
-import 'package:payflow/shared/theme.dart';
+import 'package:payflow_mobx/shared/theme.dart';
 
 class InputText extends StatelessWidget {
   final String label;

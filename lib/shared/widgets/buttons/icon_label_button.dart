@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow_mobx/shared/themes/app_text_styles.dart';
 
 class IconLabelButton extends StatelessWidget {
   final EdgeInsets? padding;

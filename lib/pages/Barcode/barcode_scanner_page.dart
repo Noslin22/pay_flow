@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
-import 'package:payflow/controllers/barcode_controller.dart';
-import 'package:payflow/controllers/boleto_list_controller.dart';
-import 'package:payflow/pages/Barcode/barcode_status.dart';
-import 'package:payflow/shared/models/boleto_model.dart';
-import 'package:payflow/shared/theme.dart';
-import 'package:payflow/shared/widgets/bottom_sheet/barcode_bottom_sheet.dart';
-import 'package:payflow/shared/widgets/buttons/set_label_buttons.dart';
+import 'package:payflow_mobx/controllers/barcode_controller.dart';
+import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
+import 'package:payflow_mobx/shared/models/boleto_model.dart';
+import 'package:payflow_mobx/shared/theme.dart';
+import 'package:payflow_mobx/shared/widgets/bottom_sheet/barcode_bottom_sheet.dart';
+import 'package:payflow_mobx/shared/widgets/buttons/set_label_buttons.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
   final BoletoController controller;
@@ -24,7 +25,13 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
   @override
   void initState() {
     controller.getAvailableCameras();
-    controller.statusNotifier.addListener(() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    reaction((_) => controller.status, (status) {
       if (controller.status.hasBarcode) {
         Navigator.pushReplacementNamed(context, '/insert_boleto', arguments: [
           BoletoModel(barcode: controller.status.barcode),
@@ -32,7 +39,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
         ]);
       }
     });
-    super.initState();
   }
 
   @override
@@ -47,10 +53,9 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
       child: LayoutBuilder(builder: (context, constraints) {
         return Stack(
           children: [
-            ValueListenableBuilder<BarcodeStatus>(
-              valueListenable: controller.statusNotifier,
-              builder: (_, status, __) {
-                if (status.showCamera) {
+            Observer(
+              builder: (_) {
+                if (controller.status.showCamera) {
                   return Container(
                     child: controller.cameraController!.buildPreview(),
                   );
@@ -111,10 +116,9 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                 ),
               ),
             ),
-            ValueListenableBuilder<BarcodeStatus>(
-              valueListenable: controller.statusNotifier,
-              builder: (_, status, __) {
-                if (status.hasError) {
+            Observer(
+              builder: (_) {
+                if (controller.status.hasError) {
                   return BarcodeBottomSheet(
                     title: kIsWeb
                         ? 'A opção de escanear não está disponivel no site.'

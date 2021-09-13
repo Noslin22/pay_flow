@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:payflow/controllers/auth_controller.dart';
-import 'package:payflow/shared/models/user_model.dart';
+import 'package:payflow_mobx/controllers/auth_controller.dart';
+import 'package:payflow_mobx/shared/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController {
