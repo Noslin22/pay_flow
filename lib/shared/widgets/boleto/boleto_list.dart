@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/widgets/boleto/boleto_tile.dart';
+import 'package:payflow/controllers/boleto_list_controller.dart';
+import 'package:payflow/shared/models/boleto_model.dart';
+import 'package:payflow/shared/widgets/boleto/boleto_tile.dart';
 
 class BoletoList extends StatefulWidget {
   final BoletoController controller;
@@ -18,10 +18,11 @@ class BoletoList extends StatefulWidget {
 class _BoletoListState extends State<BoletoList> {
   @override
   Widget build(BuildContext context) {
-    return Observer(
-        builder: (_) {
+    return ValueListenableBuilder<List<BoletoModel>>(
+        valueListenable: widget.controller.boletosNotifier,
+        builder: (_, boletos, __) {
           return Column(
-            children: widget.controller.boletos
+            children: boletos
                 .map((e) => BoletoTile(
                       data: e,
                       onLongPress: widget.callAlert == null

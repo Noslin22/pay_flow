@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payflow_mobx/shared/theme.dart';
+import 'package:payflow/shared/theme.dart';
 
 class DividerVertical extends StatelessWidget {
   @override

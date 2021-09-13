@@ -1,9 +1,9 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
-import 'package:payflow_mobx/controllers/login_controller.dart';
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/themes/app_text_styles.dart';
-import 'package:payflow_mobx/shared/widgets/buttons/social_login_button.dart';
+import 'package:payflow/controllers/login_controller.dart';
+import 'package:payflow/shared/theme.dart';
+import 'package:payflow/shared/themes/app_text_styles.dart';
+import 'package:payflow/shared/widgets/buttons/social_login_button.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,10 +11,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-    LoginController loginController = LoginController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    LoginController loginController = LoginController();
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Container(

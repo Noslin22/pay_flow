@@ -3,23 +3,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:payflow_mobx/pages/Barcode/barcode_status.dart';
+import 'package:payflow/pages/Barcode/barcode_status.dart';
 
-import 'package:mobx/mobx.dart';
-part 'barcode_controller.g.dart';
+class BarcodeController {
+  final statusNotifier = ValueNotifier<BarcodeStatus>(BarcodeStatus());
 
-class BarcodeController = _BarcodeController with _$BarcodeController;
-
-abstract class _BarcodeController with Store {
-  @observable
-  BarcodeStatus status = BarcodeStatus();
-
+  BarcodeStatus get status => statusNotifier.value;
+  set status(BarcodeStatus status) => statusNotifier.value = status;
   final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
   InputImage? imagePicker;
   CameraController? cameraController;
-  
-  @action
-  Future<void> getAvailableCameras() async {
+
+  void getAvailableCameras() async {
     try {
       final response = await availableCameras();
       final camera = response.firstWhere(
@@ -39,8 +34,7 @@ abstract class _BarcodeController with Store {
   }
 
   void scanWithImagePicker() async {
-    XFile? response =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final response = await ImagePicker().getImage(source: ImageSource.gallery);
     final inputImage = InputImage.fromFilePath(response!.path);
     scannerBarcode(inputImage);
   }
@@ -102,8 +96,7 @@ abstract class _BarcodeController with Store {
         },
       );
   }
-  
-  @action
+
   Future<void> scannerBarcode(InputImage inputImage) async {
     try {
       final barcodes = await barcodeScanner.processImage(inputImage);
@@ -122,8 +115,7 @@ abstract class _BarcodeController with Store {
       print("Erro na leitura: $e");
     }
   }
-  
-  @action
+
   void scanWithCamera() {
     status = BarcodeStatus.available();
     Future.delayed(Duration(seconds: 10)).then(
@@ -138,6 +130,7 @@ abstract class _BarcodeController with Store {
     if (status.showCamera) {
       cameraController!.dispose();
     }
+    statusNotifier.dispose();
     barcodeScanner.close();
   }
 }

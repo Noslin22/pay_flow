@@ -1,22 +1,20 @@
 import 'package:flutter/cupertino.dart';
-import 'package:mobx/mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/models/boleto_model.dart';
+import 'package:payflow/controllers/boleto_list_controller.dart';
+import 'package:payflow/shared/models/boleto_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-part 'insert_boleto_controller.g.dart';
 
-class InsertBoletoController = _InsertBoletoController with _$InsertBoletoController;
+class InsertBoletoController {
+  final erroNotifier = ValueNotifier<bool>(false);
 
-abstract class _InsertBoletoController with Store {
-  final formKey = GlobalKey<FormState>();
+  bool get erro => erroNotifier.value;
+  set erro(bool value) => erroNotifier.value = value;
   final BoletoController controller;
-  late BoletoModel editModel;
 
-  @observable
-  bool erro = false;
+  final formKey = GlobalKey<FormState>();
+  late BoletoModel editModel;
   BoletoModel model;
 
-  _InsertBoletoController({required this.controller, required this.model});
+  InsertBoletoController({required this.controller, required this.model});
 
   String? validateName(String? value) => value == null || value.isEmpty
       ? "O nome não pode ser vazio"
@@ -30,7 +28,6 @@ abstract class _InsertBoletoController with Store {
   String? validateCodigo(String? value) =>
       value?.isEmpty ?? true ? "O código do boleto não pode ser vazio" : null;
 
-  @action
   Future<bool> cadastrarBoleto() async {
     final form = formKey.currentState;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -55,7 +52,6 @@ abstract class _InsertBoletoController with Store {
     }
   }
 
-  @action
   Future<void> saveBoleto() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final boletos = prefs.getStringList('boletos') ?? <String>[];
@@ -74,7 +70,6 @@ abstract class _InsertBoletoController with Store {
     return;
   }
 
-  @action
   Future<void> editBoleto() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final boletos = prefs.getStringList('boletos') ?? <String>[];
@@ -94,7 +89,6 @@ abstract class _InsertBoletoController with Store {
     return;
   }
 
-  @action
   void onChanged({
     String? name,
     String? dueDate,

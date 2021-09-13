@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/controllers/home_controller.dart';
-import 'package:payflow_mobx/controllers/login_controller.dart';
-import 'package:payflow_mobx/pages/extract_page.dart';
-import 'package:payflow_mobx/pages/meus_boleto_page.dart';
-import 'package:payflow_mobx/shared/models/user_model.dart';
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/bottom_sheet/boleto_bottom_sheet.dart';
+import 'package:payflow/controllers/boleto_list_controller.dart';
+import 'package:payflow/controllers/home_controller.dart';
+import 'package:payflow/controllers/login_controller.dart';
+import 'package:payflow/pages/extract_page.dart';
+import 'package:payflow/pages/meus_boleto_page.dart';
+import 'package:payflow/shared/models/boleto_model.dart';
+import 'package:payflow/shared/models/user_model.dart';
+import 'package:payflow/shared/theme.dart';
+import 'package:payflow/shared/widgets/bottom_sheet/boleto_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -66,8 +66,7 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                         image: args.photoURL != null
                             ? DecorationImage(
-                                image: Image.network(args.photoURL!).image,
-                              )
+                                image: NetworkImage(args.photoURL!))
                             : null,
                         color: args.photoURL != null ? null : Colors.black,
                         borderRadius: BorderRadius.circular(6),
@@ -79,9 +78,7 @@ class _HomePageState extends State<HomePage> {
             ),
             preferredSize: Size.fromHeight(152),
           ),
-          body: Observer(builder: (_) {
-            return pages[controller.currentPage];
-          }),
+          body: pages[controller.currentPage],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
             padding: EdgeInsets.symmetric(vertical: 10),
@@ -90,16 +87,16 @@ class _HomePageState extends State<HomePage> {
               children: [
                 IconButton(
                   onPressed: () {
-                    controller.setPage(0);
+                    setState(() {
+                      controller.setPage(0);
+                    });
                   },
-                  icon: Observer(builder: (_) {
-                    return Icon(
-                      Icons.home,
-                      color: controller.currentPage == 0
-                          ? AppColors.primary
-                          : AppColors.body,
-                    );
-                  }),
+                  icon: Icon(
+                    Icons.home,
+                    color: controller.currentPage == 0
+                        ? AppColors.primary
+                        : AppColors.body,
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -121,16 +118,16 @@ class _HomePageState extends State<HomePage> {
                 ),
                 IconButton(
                   onPressed: () {
-                    controller.setPage(1);
+                    setState(() {
+                      controller.setPage(1);
+                    });
                   },
-                  icon: Observer(builder: (_) {
-                    return Icon(
-                      Icons.description_outlined,
-                      color: controller.currentPage == 1
-                          ? AppColors.primary
-                          : AppColors.body,
-                    );
-                  }),
+                  icon: Icon(
+                    Icons.description_outlined,
+                    color: controller.currentPage == 1
+                        ? AppColors.primary
+                        : AppColors.body,
+                  ),
                 ),
               ],
             ),
@@ -138,20 +135,22 @@ class _HomePageState extends State<HomePage> {
         ),
         Material(
           type: MaterialType.transparency,
-          child: Observer(builder: (_) {
-            if (boletoController.boleto.name != null) {
-              return BoletoBottomSheet(
-                model: boletoController.boleto,
-                controller: boletoController,
-              );
-            } else {
-              return Container(
-                width: 0,
-                height: 0,
-                color: Colors.transparent,
-              );
-            }
-          }),
+          child: ValueListenableBuilder<BoletoModel>(
+              valueListenable: boletoController.boletoNotifier,
+              builder: (_, boleto, __) {
+                if (boleto.name != null) {
+                  return BoletoBottomSheet(
+                    model: boleto,
+                    controller: boletoController,
+                  );
+                } else {
+                  return Container(
+                    width: 0,
+                    height: 0,
+                    color: Colors.transparent,
+                  );
+                }
+              }),
         )
       ],
     );

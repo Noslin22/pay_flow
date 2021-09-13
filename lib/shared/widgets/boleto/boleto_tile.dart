@@ -2,8 +2,8 @@ import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
-import 'package:payflow_mobx/shared/models/boleto_model.dart';
-import 'package:payflow_mobx/shared/theme.dart';
+import 'package:payflow/shared/models/boleto_model.dart';
+import 'package:payflow/shared/theme.dart';
 
 class BoletoTile extends StatelessWidget {
   final BoletoModel data;
