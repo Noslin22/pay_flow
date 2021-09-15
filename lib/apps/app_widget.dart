@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/pages/Barcode/barcode_scanner_page.dart';
-import 'package:payflow_mobx/pages/home_page.dart';
-import 'package:payflow_mobx/pages/insert_boleto_page.dart';
-import 'package:payflow_mobx/pages/login_page.dart';
-import 'package:payflow_mobx/pages/splash_page.dart';
-import 'package:payflow_mobx/shared/models/boleto_model.dart';
-import 'shared/themes/app_colors.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/pages/Barcode/barcode_scanner_page.dart';
+import 'package:payflow_hive/pages/home_page.dart';
+import 'package:payflow_hive/pages/insert_boleto_page.dart';
+import 'package:payflow_hive/pages/login_page.dart';
+import 'package:payflow_hive/pages/splash_page.dart';
+import 'package:payflow_hive/shared/models/boleto_model.dart';
+import 'package:payflow_hive/shared/theme.dart';
 
 class AppWidget extends StatelessWidget {
   AppWidget() {

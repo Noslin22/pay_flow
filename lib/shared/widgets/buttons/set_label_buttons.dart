@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/themes/app_text_styles.dart';
-import 'package:payflow_mobx/shared/widgets/divider_vertical.dart';
-import 'package:payflow_mobx/shared/widgets/buttons/icon_label_button.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/themes/app_text_styles.dart';
+import 'package:payflow_hive/shared/widgets/divider_vertical.dart';
+import 'package:payflow_hive/shared/widgets/buttons/icon_label_button.dart';
 
 class SetLabelButtons extends StatelessWidget {
   final String primaryLabel;

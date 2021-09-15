@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/buttons/set_label_buttons.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/widgets/buttons/set_label_buttons.dart';
 
 class BarcodeBottomSheet extends StatelessWidget {
   final String primaryLabel;

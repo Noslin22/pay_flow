@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/widgets/boleto/boleto_tile.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/shared/widgets/boleto/boleto_tile.dart';
 
 class BoletoList extends StatefulWidget {
   final BoletoController controller;

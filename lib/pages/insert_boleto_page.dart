@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/controllers/insert_boleto_controller.dart';
-import 'package:payflow_mobx/shared/models/boleto_model.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/controllers/insert_boleto_controller.dart';
+import 'package:payflow_hive/shared/models/boleto_model.dart';
 
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/input_text.dart';
-import 'package:payflow_mobx/shared/widgets/buttons/set_label_buttons.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/widgets/input_text.dart';
+import 'package:payflow_hive/shared/widgets/buttons/set_label_buttons.dart';
 
 class InsertBoletoPage extends StatefulWidget {
   final BoletoController boletoController;
@@ -131,7 +131,7 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
           Navigator.pop(context);
         },
         secondaryOnTap: () async {
-          if (widget.model != BoletoModel()) {
+          if (!widget.model.isEmpty) {
             controller!.editBoleto();
             Navigator.pop(context);
           } else if (await controller!.cadastrarBoleto()) {

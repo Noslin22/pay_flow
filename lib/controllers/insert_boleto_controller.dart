@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/models/boleto_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/shared/models/boleto_model.dart';
 part 'insert_boleto_controller.g.dart';
 
-class InsertBoletoController = _InsertBoletoController with _$InsertBoletoController;
+class InsertBoletoController = _InsertBoletoController
+    with _$InsertBoletoController;
 
 abstract class _InsertBoletoController with Store {
   final formKey = GlobalKey<FormState>();
@@ -33,22 +34,14 @@ abstract class _InsertBoletoController with Store {
   @action
   Future<bool> cadastrarBoleto() async {
     final form = formKey.currentState;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final boletos = prefs.getStringList('boletos') ?? <String>[];
-    if (boletos
-        .where(
-            (element) => BoletoModel.fromJson(element).name == editModel.name)
-        .isNotEmpty) {
+    final Box<BoletoModel> boletosBox = Hive.box<BoletoModel>('boletos');
+    if (boletosBox.containsKey(editModel.name)) {
       erro = true;
     } else {
       erro = false;
     }
     if (form!.validate()) {
-      if (model != BoletoModel()) {
-        await editBoleto();
-      } else {
-        await saveBoleto();
-      }
+      await saveBoleto();
       return true;
     } else {
       return false;
@@ -57,14 +50,9 @@ abstract class _InsertBoletoController with Store {
 
   @action
   Future<void> saveBoleto() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final boletos = prefs.getStringList('boletos') ?? <String>[];
-    if (boletos
-        .where(
-            (element) => BoletoModel.fromJson(element).name == editModel.name)
-        .isEmpty) {
-      boletos.add(editModel.toJson());
-      await prefs.setStringList('boletos', boletos);
+    final Box<BoletoModel> boletosBox = Hive.box<BoletoModel>('boletos');
+    if (!boletosBox.containsKey(editModel.name)) {
+      boletosBox.put(editModel.name, editModel);
       controller.type == 'boletos'
           ? controller.getBoletos()
           : controller.getExtratos();
@@ -76,15 +64,10 @@ abstract class _InsertBoletoController with Store {
 
   @action
   Future<void> editBoleto() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final boletos = prefs.getStringList('boletos') ?? <String>[];
-    boletos.remove(model.toJson());
-    if (boletos
-        .where(
-            (element) => BoletoModel.fromJson(element).name == editModel.name)
-        .isEmpty) {
-      boletos.add(editModel.toJson());
-      await prefs.setStringList('boletos', boletos);
+    final Box<BoletoModel> boletosBox = Hive.box<BoletoModel>('boletos');
+    if (!boletosBox.containsKey(editModel.name)) {
+      boletosBox.delete(model.name);
+      boletosBox.put(editModel.name, editModel);
       controller.type == 'boletos'
           ? controller.getBoletos()
           : controller.getExtratos();
@@ -101,11 +84,11 @@ abstract class _InsertBoletoController with Store {
     double? value,
     String? barcode,
   }) {
-    editModel = editModel.copyWith(
-      name: name,
-      dueDate: dueDate,
-      value: value,
-      barcode: barcode,
+    editModel = BoletoModel(
+      name: name ?? editModel.name,
+      dueDate: dueDate ?? editModel.dueDate,
+      value: value ?? editModel.value,
+      barcode: barcode ?? editModel.barcode,
       email: controller.userEmail,
     );
   }

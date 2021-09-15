@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/controllers/home_controller.dart';
-import 'package:payflow_mobx/controllers/login_controller.dart';
-import 'package:payflow_mobx/pages/extract_page.dart';
-import 'package:payflow_mobx/pages/meus_boleto_page.dart';
-import 'package:payflow_mobx/shared/models/user_model.dart';
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/bottom_sheet/boleto_bottom_sheet.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/controllers/home_controller.dart';
+import 'package:payflow_hive/controllers/login_controller.dart';
+import 'package:payflow_hive/pages/extract_page.dart';
+import 'package:payflow_hive/pages/meus_boleto_page.dart';
+import 'package:payflow_hive/shared/models/user_model.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/widgets/bottom_sheet/boleto_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,10 +21,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as UserModel;
     final boletoController = BoletoController.boleto(email: args.email);
+    final extratoController = BoletoController.extrato(email: args.email);
     final pages = [
       MeusBoletosPage(controller: boletoController),
       ExtractPage(
-        email: args.email,
+        controller: extratoController,
       ),
     ];
     List<String> names = args.name.split(' ');

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:payflow_mobx/pages/Barcode/barcode_status.dart';
+import 'package:payflow_hive/pages/Barcode/barcode_status.dart';
 
 import 'package:mobx/mobx.dart';
 part 'barcode_controller.g.dart';
