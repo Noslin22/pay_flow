@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
-import 'package:payflow_mobx/shared/models/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:payflow_hive/shared/models/user_model.dart';
 part 'auth_controller.g.dart';
 
 class AuthController = _AuthController with _$AuthController;
@@ -22,18 +22,17 @@ abstract class _AuthController with Store {
   }
 
   Future<void> saveUser(UserModel user) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('user', user.toJson());
+    final userBox = Hive.box<UserModel>('user');
+    userBox.put('user', user);
     return;
   }
 
   @action
   Future<void> currentUser(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await Future.delayed(Duration(seconds: 3));
-    if (prefs.containsKey('user')) {
-      final user = prefs.getString("user") as String;
-      setUser(user: UserModel.fromJson(user), context: context);
+    final userBox = Hive.box<UserModel>('user');
+    await Future.delayed(Duration(seconds: 1));
+    if (userBox.isOpen) {
+      setUser(user: userBox.get('user'), context: context);
       return;
     } else {
       setUser(user: null, context: context);

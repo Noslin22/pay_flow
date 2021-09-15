@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
-import 'package:payflow_mobx/controllers/barcode_controller.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/models/boleto_model.dart';
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/bottom_sheet/barcode_bottom_sheet.dart';
-import 'package:payflow_mobx/shared/widgets/buttons/set_label_buttons.dart';
+import 'package:payflow_hive/controllers/barcode_controller.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/shared/models/boleto_model.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/widgets/bottom_sheet/barcode_bottom_sheet.dart';
+import 'package:payflow_hive/shared/widgets/buttons/set_label_buttons.dart';
 
 class BarcodeScannerPage extends StatefulWidget {
   final BoletoController controller;

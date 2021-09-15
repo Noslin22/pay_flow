@@ -1,46 +1,20 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:payflow_mobx/app_widget.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'apps/app_firebase.dart';
+import 'shared/models/boleto_model.dart';
+import 'shared/models/user_model.dart';
 
-void main() {
-  runApp(AppFirebase());
-}
-
-class AppFirebase extends StatefulWidget {
-  const AppFirebase({Key? key}) : super(key: key);
-
-  @override
-  _AppFirebaseState createState() => _AppFirebaseState();
-}
-
-class _AppFirebaseState extends State<AppFirebase> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          print(snapshot.error);
-          return Material(
-            child: Center(
-              child: Text(
-                "Algo deu errado, tente novamente mais tarde.",
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-          );
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          return AppWidget();
-        } else {
-          return Material(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
-    );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) {
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
   }
+
+  Hive
+    ..registerAdapter(UserModelAdapter())
+    ..registerAdapter(BoletoModelAdapter());
+  runApp(AppFirebase());
 }

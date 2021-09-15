@@ -1,10 +1,10 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/boleto/boleto_info.dart';
-import 'package:payflow_mobx/shared/widgets/boleto/boleto_list.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/widgets/boleto/boleto_info.dart';
+import 'package:payflow_hive/shared/widgets/boleto/boleto_list.dart';
 
 class MeusBoletosPage extends StatelessWidget {
   final BoletoController controller;

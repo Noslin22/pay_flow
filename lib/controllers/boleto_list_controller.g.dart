@@ -8,8 +8,8 @@ part of 'boleto_list_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$BoletoController on _BoletoController, Store {
-  final _$boletosAtom = Atom(name: '_BoletoController.boletos');
+mixin _$BoletoController on BoletoControllerBase, Store {
+  final _$boletosAtom = Atom(name: 'BoletoControllerBase.boletos');
 
   @override
   List<BoletoModel> get boletos {
@@ -24,7 +24,7 @@ mixin _$BoletoController on _BoletoController, Store {
     });
   }
 
-  final _$boletoAtom = Atom(name: '_BoletoController.boleto');
+  final _$boletoAtom = Atom(name: 'BoletoControllerBase.boleto');
 
   @override
   BoletoModel get boleto {
@@ -39,26 +39,43 @@ mixin _$BoletoController on _BoletoController, Store {
     });
   }
 
-  final _$getBoletosAsyncAction = AsyncAction('_BoletoController.getBoletos');
+  final _$getBoletosAsyncAction =
+      AsyncAction('BoletoControllerBase.getBoletos');
 
   @override
   Future<void> getBoletos() {
     return _$getBoletosAsyncAction.run(() => super.getBoletos());
   }
 
-  final _$getExtratosAsyncAction = AsyncAction('_BoletoController.getExtratos');
+  final _$getExtratosAsyncAction =
+      AsyncAction('BoletoControllerBase.getExtratos');
 
   @override
   Future<void> getExtratos() {
     return _$getExtratosAsyncAction.run(() => super.getExtratos());
   }
 
+  final _$payBoletoAsyncAction = AsyncAction('BoletoControllerBase.payBoleto');
+
+  @override
+  Future<void> payBoleto() {
+    return _$payBoletoAsyncAction.run(() => super.payBoleto());
+  }
+
   final _$deleteBoletoAsyncAction =
-      AsyncAction('_BoletoController.deleteBoleto');
+      AsyncAction('BoletoControllerBase.deleteBoleto');
 
   @override
   Future<void> deleteBoleto() {
     return _$deleteBoletoAsyncAction.run(() => super.deleteBoleto());
+  }
+
+  final _$deleteExtratoAsyncAction =
+      AsyncAction('BoletoControllerBase.deleteExtrato');
+
+  @override
+  Future<void> deleteExtrato() {
+    return _$deleteExtratoAsyncAction.run(() => super.deleteExtrato());
   }
 
   @override

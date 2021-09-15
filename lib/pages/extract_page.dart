@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:payflow_mobx/controllers/boleto_list_controller.dart';
-import 'package:payflow_mobx/shared/theme.dart';
-import 'package:payflow_mobx/shared/widgets/boleto/boleto_list.dart';
-import 'package:payflow_mobx/shared/widgets/divider_vertical.dart';
-import 'package:payflow_mobx/shared/widgets/buttons/icon_label_button.dart';
+import 'package:payflow_hive/controllers/boleto_list_controller.dart';
+import 'package:payflow_hive/shared/theme.dart';
+import 'package:payflow_hive/shared/widgets/boleto/boleto_list.dart';
+import 'package:payflow_hive/shared/widgets/divider_vertical.dart';
+import 'package:payflow_hive/shared/widgets/buttons/icon_label_button.dart';
 
 class ExtractPage extends StatelessWidget {
-  final String email;
-  ExtractPage({required this.email});
+  final BoletoController controller;
+  ExtractPage({required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final controller = BoletoController.extrato(email: email);
+    //Solução temporaria
+    controller.getExtratos();
+    
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -25,15 +27,14 @@ class ExtractPage extends StatelessWidget {
                   'Meus extratos',
                   style: TextStyles.titleBoldHeading,
                 ),
-                Observer(
-                    builder: (_) {
-                      int payed = controller.boletos.length;
-                      return Text(
-                        "$payed pago${payed > 1 || payed == 0 ? 's' : ''}",
-                        style: TextStyles.captionBody,
-                        textAlign: TextAlign.right,
-                      );
-                    })
+                Observer(builder: (_) {
+                  int payed = controller.boletos.length;
+                  return Text(
+                    "$payed pago${payed > 1 || payed == 0 ? 's' : ''}",
+                    style: TextStyles.captionBody,
+                    textAlign: TextAlign.right,
+                  );
+                })
               ],
             ),
           ),
