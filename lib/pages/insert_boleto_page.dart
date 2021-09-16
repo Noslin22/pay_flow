@@ -31,17 +31,27 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
   final barcodeController = TextEditingController();
   final nameController = TextEditingController();
 
+  final FocusNode fnName = FocusNode();
+  final FocusNode fnDueDate = FocusNode();
+  final FocusNode fnValue = FocusNode();
+  final FocusNode fnCode = FocusNode();
+
   @override
   void initState() {
     controller = InsertBoletoController(
-        controller: widget.boletoController, model: widget.model);
+      controller: widget.boletoController,
+      model: widget.model,
+    );
+
     controller!.editModel = widget.model;
+
     if (widget.model != BoletoModel()) {
       nameController.text = widget.model.name ?? '';
       dateController.text = widget.model.dueDate ?? '';
       moneyController.updateValue(widget.model.value ?? 0);
       barcodeController.text = widget.model.barcode ?? '';
     }
+
     super.initState();
   }
 
@@ -80,11 +90,14 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                     InputText(
                       label: 'Nome do boleto',
                       controller: nameController,
+                      first: true,
                       validator: controller!.validateName,
                       icon: Icons.description_outlined,
                       onChanged: (value) {
                         controller!.onChanged(name: value);
                       },
+                      focusNode: fnName,
+                      nextFocusNode: fnDueDate,
                     ),
                     InputText(
                       label: 'Vencimento',
@@ -94,6 +107,8 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                       onChanged: (value) {
                         controller!.onChanged(dueDate: value);
                       },
+                      focusNode: fnDueDate,
+                      nextFocusNode: fnValue,
                     ),
                     InputText(
                       label: 'Valor',
@@ -106,6 +121,8 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                           value: moneyController.numberValue,
                         );
                       },
+                      focusNode: fnValue,
+                      nextFocusNode: fnCode,
                     ),
                     InputText(
                       label: 'Código',
@@ -115,6 +132,12 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                       onChanged: (value) {
                         controller!.onChanged(barcode: value);
                       },
+                      focusNode: fnCode,
+                      submit: () async {
+                        if (await controller!.cadastrarBoleto())
+                          Navigator.pop(context);
+                      },
+                      last: true,
                     ),
                   ],
                 ),
@@ -126,17 +149,12 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
       bottomNavigationBar: SetLabelButtons(
         primaryColor: 1,
         primaryLabel: 'Cancelar',
-        secondaryLabel: 'Cadastrar',
+        secondaryLabel: widget.model.isEmpty ? 'Cadastrar' : 'Editar',
         primaryOnTap: () {
           Navigator.pop(context);
         },
         secondaryOnTap: () async {
-          if (!widget.model.isEmpty) {
-            controller!.editBoleto();
-            Navigator.pop(context);
-          } else if (await controller!.cadastrarBoleto()) {
-            Navigator.pop(context);
-          }
+          if (await controller!.cadastrarBoleto()) Navigator.pop(context);
         },
       ),
     );

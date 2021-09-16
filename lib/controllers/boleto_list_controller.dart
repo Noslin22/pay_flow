@@ -15,14 +15,14 @@ abstract class BoletoControllerBase with Store {
   String type = '';
 
   BoletoControllerBase.boleto({required String email}) {
-    getBoletos();
-    type = 'boletos';
     userEmail = email;
+    type = 'boletos';
+    getBoletos();
   }
   BoletoControllerBase.extrato({required String email}) {
-    getExtratos();
-    type = 'extratos';
     userEmail = email;
+    type = 'extratos';
+    getExtratos();
   }
 
   @action
@@ -45,7 +45,6 @@ abstract class BoletoControllerBase with Store {
       boletos =
           response.where((element) => element.email == userEmail).toList();
     } catch (e) {
-      print(e);
       boletos = <BoletoModel>[];
     }
   }
@@ -54,9 +53,8 @@ abstract class BoletoControllerBase with Store {
   Future<void> payBoleto() async {
     final Box<BoletoModel> boletosBox = Hive.box<BoletoModel>('boletos');
     final Box<BoletoModel> extratosBox = Hive.box<BoletoModel>('extratos');
-    extratosBox.put(boleto.name, boleto);
     boletosBox.delete(boleto.name);
-    type == 'boletos' ? await getBoletos() : await getExtratos();
+    extratosBox.put(boleto.name, boleto);
     return;
   }
 

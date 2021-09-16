@@ -15,55 +15,51 @@ class MeusBoletosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Stack(
+      child: Column(
         children: [
-          Column(
+          Stack(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 40,
-                    width: double.maxFinite,
-                    color: AppColors.primary,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Observer(
-                      builder: (_) => AnimatedCard(
-                        child: BoletoInfo(size: controller.boletos.length),
-                        direction: AnimatedCardDirection.top,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 24, left: 24, right: 24),
-                child: Row(
-                  children: [
-                    Text(
-                      'Meus boletos',
-                      style: TextStyles.titleBoldHeading,
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-                child: Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: AppColors.stroke,
-                ),
+              Container(
+                height: 40,
+                width: double.maxFinite,
+                color: AppColors.primary,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: BoletoList(
-                  controller: controller,
+                child: Observer(
+                  builder: (_) => AnimatedCard(
+                    child: BoletoInfo(size: controller.boletos.length),
+                    direction: AnimatedCardDirection.top,
+                  ),
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 24, left: 24, right: 24),
+            child: Row(
+              children: [
+                Text(
+                  'Meus boletos',
+                  style: TextStyles.titleBoldHeading,
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            child: Divider(
+              height: 1,
+              thickness: 1,
+              color: AppColors.stroke,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: BoletoList(
+              controller: controller,
+            ),
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hive/hive.dart';
 import 'package:payflow_hive/controllers/boleto_list_controller.dart';
 import 'package:payflow_hive/controllers/home_controller.dart';
 import 'package:payflow_hive/controllers/login_controller.dart';
@@ -16,19 +17,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = HomeController();
+  final Box<UserModel> userBox = Hive.box<UserModel>('user');
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as UserModel;
-    final boletoController = BoletoController.boleto(email: args.email);
-    final extratoController = BoletoController.extrato(email: args.email);
+    final UserModel user = userBox.get('user')!;
+    final boletoController = BoletoController.boleto(email: user.email);
+    final extratoController = BoletoController.extrato(email: user.email);
     final pages = [
       MeusBoletosPage(controller: boletoController),
       ExtractPage(
         controller: extratoController,
       ),
     ];
-    List<String> names = args.name.split(' ');
+    List<String> names = user.name.split(' ');
     names.removeRange(2, names.length);
     return Stack(
       children: [
@@ -65,12 +67,12 @@ class _HomePageState extends State<HomePage> {
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        image: args.photoURL != null
+                        image: user.photoURL != null
                             ? DecorationImage(
-                                image: Image.network(args.photoURL!).image,
+                                image: Image.network(user.photoURL!).image,
                               )
                             : null,
-                        color: args.photoURL != null ? null : Colors.black,
+                        color: user.photoURL != null ? null : Colors.black,
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
@@ -143,7 +145,8 @@ class _HomePageState extends State<HomePage> {
             if (boletoController.boleto.name != null) {
               return BoletoBottomSheet(
                 model: boletoController.boleto,
-                controller: boletoController,
+                controllerBoleto: boletoController,
+                controllerExtrato: extratoController,
               );
             } else {
               return Container(

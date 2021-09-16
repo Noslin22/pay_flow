@@ -41,7 +41,11 @@ abstract class _InsertBoletoController with Store {
       erro = false;
     }
     if (form!.validate()) {
-      await saveBoleto();
+      if (model.isEmpty) {
+        await saveBoleto();
+      } else {
+        await editBoleto();
+      }
       return true;
     } else {
       return false;
@@ -65,8 +69,15 @@ abstract class _InsertBoletoController with Store {
   @action
   Future<void> editBoleto() async {
     final Box<BoletoModel> boletosBox = Hive.box<BoletoModel>('boletos');
-    if (!boletosBox.containsKey(editModel.name)) {
+
+    if (model.name != editModel.name &&
+        !boletosBox.containsKey(editModel.name)) {
       boletosBox.delete(model.name);
+      boletosBox.put(editModel.name, editModel);
+      controller.type == 'boletos'
+          ? controller.getBoletos()
+          : controller.getExtratos();
+    } else if (model.name == editModel.name) {
       boletosBox.put(editModel.name, editModel);
       controller.type == 'boletos'
           ? controller.getBoletos()
@@ -74,7 +85,6 @@ abstract class _InsertBoletoController with Store {
     } else {
       erro = true;
     }
-    return;
   }
 
   @action
