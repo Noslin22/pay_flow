@@ -7,11 +7,13 @@ import 'package:payflow_hive/shared/widgets/buttons/icon_label_button.dart';
 import 'package:payflow_hive/shared/widgets/buttons/button_outline.dart';
 
 class BoletoBottomSheet extends StatelessWidget {
-  final BoletoController controller;
+  final BoletoController controllerBoleto;
+  final BoletoController controllerExtrato;
   final BoletoModel model;
   const BoletoBottomSheet({
     required this.model,
-    required this.controller,
+    required this.controllerBoleto,
+    required this.controllerExtrato,
   });
 
   @override
@@ -69,7 +71,7 @@ class BoletoBottomSheet extends StatelessWidget {
                           style: TextStyles.buttonGray,
                         ),
                         onTap: () {
-                          controller.boleto = BoletoModel();
+                          controllerBoleto.boleto = BoletoModel();
                         },
                         borderColor: AppColors.stroke,
                         color: AppColors.shape,
@@ -84,8 +86,10 @@ class BoletoBottomSheet extends StatelessWidget {
                           style: TextStyles.buttonBackground,
                         ),
                         onTap: () async {
-                          await controller.payBoleto();
-                          controller.boleto = BoletoModel();
+                          await controllerBoleto.payBoleto();
+                          await controllerBoleto.getBoletos();
+                          await controllerExtrato.getExtratos();
+                          controllerBoleto.boleto = BoletoModel();
                         },
                         padding: EdgeInsets.symmetric(
                           horizontal: 64,
@@ -109,8 +113,8 @@ class BoletoBottomSheet extends StatelessWidget {
                         label: 'Deletar boleto',
                         style: TextStyles.buttonDelete,
                         onTap: () async {
-                          await controller.deleteBoleto();
-                          controller.boleto = BoletoModel();
+                          await controllerBoleto.deleteBoleto();
+                          controllerBoleto.boleto = BoletoModel();
                         },
                         icon: Icon(
                           Icons.delete,
@@ -124,9 +128,9 @@ class BoletoBottomSheet extends StatelessWidget {
                           Navigator.pushNamed(context, '/insert_boleto',
                               arguments: [
                                 model,
-                                controller,
+                                controllerBoleto,
                               ]);
-                          controller.boleto = BoletoModel();
+                          controllerBoleto.boleto = BoletoModel();
                         },
                         icon: Icon(
                           Icons.edit,

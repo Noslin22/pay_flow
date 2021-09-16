@@ -12,9 +12,6 @@ class ExtractPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Solução temporaria
-    controller.getExtratos();
-    
     return SingleChildScrollView(
       child: Column(
         children: [

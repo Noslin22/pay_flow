@@ -14,16 +14,16 @@ abstract class _AuthController with Store {
   void setUser({required UserModel? user, required BuildContext context}) {
     if (user != null) {
       userModel = user;
-      saveUser(user);
-      Navigator.pushReplacementNamed(context, '/home', arguments: user);
+      saveUser();
+      Navigator.pushReplacementNamed(context, '/home');
     } else {
       Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
-  Future<void> saveUser(UserModel user) async {
+  Future<void> saveUser() async {
     final userBox = Hive.box<UserModel>('user');
-    userBox.put('user', user);
+    userBox.put('user', userModel!);
     return;
   }
 
@@ -31,11 +31,6 @@ abstract class _AuthController with Store {
   Future<void> currentUser(BuildContext context) async {
     final userBox = Hive.box<UserModel>('user');
     await Future.delayed(Duration(seconds: 1));
-    if (userBox.isOpen) {
-      setUser(user: userBox.get('user'), context: context);
-      return;
-    } else {
-      setUser(user: null, context: context);
-    }
+    setUser(user: userBox.get('user'), context: context);
   }
 }

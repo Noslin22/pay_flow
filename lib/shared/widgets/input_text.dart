@@ -7,18 +7,31 @@ class InputText extends StatelessWidget {
   final String label;
   final IconData icon;
   final String? initialValue;
+
+  final FocusNode focusNode;
+  final FocusNode? nextFocusNode;
+  final Function? submit;
+  bool last;
+  bool first;
+
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final void Function(String value) onChanged;
 
   InputText({
+    Key? key,
+    required this.focusNode,
     required this.onChanged,
     required this.label,
     required this.icon,
     this.initialValue,
-    this.controller,
+    this.nextFocusNode,
+    this.last = false,
+    this.first = false,
+    this.submit,
     this.validator,
-  });
+    this.controller,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AnimatedCard(
@@ -29,6 +42,10 @@ class InputText extends StatelessWidget {
             onChanged: onChanged,
             controller: controller,
             validator: validator,
+            autofocus: first,
+            textInputAction:
+                !last ? TextInputAction.next : TextInputAction.done,
+            focusNode: focusNode,
             initialValue: initialValue,
             style: TextStyles.input,
             decoration: InputDecoration(
@@ -54,6 +71,15 @@ class InputText extends StatelessWidget {
                 ],
               ),
             ),
+            onFieldSubmitted: (_) {
+              if (!last) {
+                focusNode.unfocus();
+                FocusScope.of(context).requestFocus(nextFocusNode);
+              } else {
+                focusNode.unfocus();
+                submit!();
+              }
+            },
           ),
           Divider(
             height: 1,
