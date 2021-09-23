@@ -11,8 +11,8 @@ class InputText extends StatelessWidget {
   final FocusNode focusNode;
   final FocusNode? nextFocusNode;
   final Function? submit;
-  bool last;
-  bool first;
+  final bool last;
+  final bool first;
 
   final String? Function(String?)? validator;
   final TextEditingController? controller;

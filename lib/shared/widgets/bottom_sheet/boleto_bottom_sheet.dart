@@ -19,6 +19,7 @@ class BoletoBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String value = MoneyMaskedTextController(initialValue: model.value!).text;
+    bool large = MediaQuery.of(context).size.width >= 440;
     return SafeArea(
       child: Column(
         children: [
@@ -76,8 +77,8 @@ class BoletoBottomSheet extends StatelessWidget {
                         borderColor: AppColors.stroke,
                         color: AppColors.shape,
                         padding: EdgeInsets.symmetric(
-                          horizontal: 64,
-                          vertical: 18,
+                          horizontal: large ? 50 : 25,
+                          vertical: large ? 18 : 14,
                         ),
                       ),
                       ButtonOutline(
@@ -92,8 +93,8 @@ class BoletoBottomSheet extends StatelessWidget {
                           controllerBoleto.boleto = BoletoModel();
                         },
                         padding: EdgeInsets.symmetric(
-                          horizontal: 64,
-                          vertical: 18,
+                          horizontal: large ? 64 : 32,
+                          vertical: large ? 18 : 14,
                         ),
                       ),
                     ],
